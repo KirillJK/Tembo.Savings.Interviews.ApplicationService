@@ -1,0 +1,10 @@
+﻿{
+	"bankAccount": {
+		"sortCode": "12-34-56",
+		"accountNumber": "12345678"
+	},
+	"amount": {
+		"currency": "GBP",
+		"amount": 250.00
+	}
+}

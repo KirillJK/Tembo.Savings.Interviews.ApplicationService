@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Services.AdministratorOne.Adapter\Services.AdministratorOne.Adapter.csproj" />
+    <ProjectReference Include="..\Services.AdministratorTwo.Adapter\Services.AdministratorTwo.Adapter.csproj" />
+    <ProjectReference Include="..\Services.Applications\Services.Applications.csproj" />
+    <ProjectReference Include="..\Services.Common\Services.Common.csproj" />
+  </ItemGroup>
+
+</Project>

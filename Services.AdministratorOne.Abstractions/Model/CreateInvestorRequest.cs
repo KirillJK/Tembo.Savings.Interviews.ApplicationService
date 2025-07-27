@@ -33,4 +33,7 @@ public class CreateInvestorRequest
     public string AccountNumber { get; set; }
     
     public int InitialPayment { get; set; }
+
+
+
 }
