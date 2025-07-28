@@ -24,15 +24,15 @@ namespace Services.Applications.Tests
             Guid paymentId = Guid.NewGuid();
             var bus = TestHelper.GetDefaultBus();
             var kycService = TestHelper.GetKycServiceAlwaysValid(Guid.Empty);
-
+            var defaultUser = TestHelper.GetUser();
 
             var mockAdministrationService1 = new Mock<AdministratorOne.Abstractions.IAdministrationService>();
             var administrationService1 = mockAdministrationService1.Object;
 
             var mockAdministrationService2 = new Mock<AdministratorTwo.Abstractions.IAdministrationService>();
-            mockAdministrationService2.Setup(a => a.CreateInvestorAsync(It.IsAny<User>())).Returns(Task.FromResult(new Result<Guid>(true, null, investorId)));
-            mockAdministrationService2.Setup(a => a.CreateAccountAsync(It.IsAny<Guid>(), ProductCode.ProductTwo)).Returns(Task.FromResult(new Result<Guid>(true, null, accountId)));
-            mockAdministrationService2.Setup(a => a.ProcessPaymentAsync(It.IsAny<Guid>(), It.IsAny<Payment>())).Returns(Task.FromResult(new Result<Guid>(true, null, paymentId)));
+            mockAdministrationService2.Setup(a => a.CreateInvestorAsync(It.Is<User>(req=>TestHelper.IsEquivalent(defaultUser, req)))).Returns(Task.FromResult(new Result<Guid>(true, null, investorId)));
+            mockAdministrationService2.Setup(a => a.CreateAccountAsync(It.Is<Guid>(req=>req == investorId), ProductCode.ProductTwo)).Returns(Task.FromResult(new Result<Guid>(true, null, accountId)));
+            mockAdministrationService2.Setup(a => a.ProcessPaymentAsync(It.Is<Guid>(req=>req == accountId), It.IsAny<Payment>())).Returns(Task.FromResult(new Result<Guid>(true, null, paymentId)));
             var administrationService2 = mockAdministrationService2.Object;
 
 
@@ -59,14 +59,7 @@ namespace Services.Applications.Tests
 
             var mockAdministrationService1 = new Mock<AdministratorOne.Abstractions.IAdministrationService>();
             var administrationService1 = mockAdministrationService1.Object;
-
-            var mockAdministrationService2 = new Mock<AdministratorTwo.Abstractions.IAdministrationService>();
-            mockAdministrationService2.Setup(a => a.CreateInvestorAsync(It.IsAny<User>())).Returns(Task.FromResult(new Result<Guid>(true, null, investorId)));
-            mockAdministrationService2.Setup(a => a.CreateAccountAsync(It.IsAny<Guid>(), ProductCode.ProductTwo)).Returns(Task.FromResult(new Result<Guid>(true, null, accountId)));
-            mockAdministrationService2.Setup(a => a.ProcessPaymentAsync(It.IsAny<Guid>(), It.IsAny<Payment>())).Returns(Task.FromResult(new Result<Guid>(true, null, paymentId)));
-            var administrationService2 = mockAdministrationService2.Object;
-
-
+            
             var applicationAdapterManager = TestHelper.InitDefaultApplicationAdapterManager();
 
             applicationAdapterManager.Register(ProductCode.ProductOne, new ApplicationAdapterProductOne(bus, administrationService1), new List<IValidationParameters>());

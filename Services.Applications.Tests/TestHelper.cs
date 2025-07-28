@@ -70,6 +70,11 @@ namespace Services.Applications.Tests
         {
             return JsonConvert.DeserializeObject<CreateInvestorRequest>(File.ReadAllText("TestData/createinvestorrequest.json"), GetDefaultJsonSettings());
         }
+        
+        public static User GetUser()
+        {
+            return JsonConvert.DeserializeObject<User>(File.ReadAllText("TestData/user.json"), GetDefaultJsonSettings());
+        }
 
         public static bool IsEquivalent(CreateInvestorRequest one, CreateInvestorRequest two)
         {
@@ -89,5 +94,17 @@ namespace Services.Applications.Tests
                   one.InitialPayment == two.InitialPayment;
             return result;
         }
+
+        public static bool IsEquivalent(User one, User two)
+        {
+            return one.Id == two.Id &&
+                   one.IsVerified == two.IsVerified &&
+                   one.Forename == two.Forename &&
+                   one.Surname == two.Surname &&
+                   one.DateOfBirth == two.DateOfBirth &&
+                   one.Nino == two.Nino;
+        }
+        
+
     }
 }
